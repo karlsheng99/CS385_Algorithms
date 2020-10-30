@@ -17,15 +17,40 @@ struct Node {
 };
 
 Node* lowest_common_ancestor(Node *p, Node *q) {
-
+    if (p == nullptr || q == nullptr) {
+        return nullptr;
+    }
+    if (p == q) {
+        return p;
+    }
+    if(p->level > q->level) {
+        return lowest_common_ancestor(p->parent, q);
+    }
+    if(q->level > q->level) {
+        return lowest_common_ancestor(p, q->parent);
+    }
+    return lowest_common_ancestor(p->parent, q->parent);
 }
 
 Node* create_bst_helper(int data[], int low, int high, int level) {
-
+    if (low > high) {
+        return nullptr;
+    }
+    int mid = low + (high - low) / 2;
+    Node* parent = new Node(level, data[mid]);
+    parent->left = create_bst_helper(data, 0, mid-1, level+1);
+    if (parent->left != nullptr) {
+        parent->left->parent = parent;
+    }
+    parent->right = create_bst_helper(data, mid+1, high, level+1);
+    if (parent->right != nullptr) {
+        parent->right->parent = parent;
+    }
+    return parent;
 }
 
 Node* create_bst(int data[], int length) {
-
+    return create_bst_helper(data, 0, length-1, 0)
 }
 
 bool is_bst(Node *n, int *min, int *max) {
