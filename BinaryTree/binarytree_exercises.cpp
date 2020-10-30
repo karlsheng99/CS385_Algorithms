@@ -50,7 +50,7 @@ Node* create_bst_helper(int data[], int low, int high, int level) {
 }
 
 Node* create_bst(int data[], int length) {
-    return create_bst_helper(data, 0, length-1, 0)
+    return create_bst_helper(data, 0, length-1, 0);
 }
 
 bool is_bst(Node *n, int *min, int *max) {
