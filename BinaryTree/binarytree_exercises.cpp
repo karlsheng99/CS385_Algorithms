@@ -54,7 +54,13 @@ Node* create_bst(int data[], int length) {
 }
 
 bool is_bst(Node *n, int *min, int *max) {
-
+    if (n == nullptr) {
+        return true;
+    }
+    if ((min != nullptr) && n->data <= *min) || (max != nullptr) && n->data >= *max)) {
+        return false;
+    }
+    return is_bst(tree, nullptr, nullptr);
 }
 
 bool is_bst(Node *tree) {
