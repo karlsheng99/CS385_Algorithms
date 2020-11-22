@@ -26,7 +26,7 @@ Node* lowest_common_ancestor(Node *p, Node *q) {
     if(p->level > q->level) {
         return lowest_common_ancestor(p->parent, q);
     }
-    if(q->level > q->level) {
+    if(q->level > p->level) {
         return lowest_common_ancestor(p, q->parent);
     }
     return lowest_common_ancestor(p->parent, q->parent);
@@ -57,10 +57,10 @@ bool is_bst(Node *n, int *min, int *max) {
     if (n == nullptr) {
         return true;
     }
-    if ((min != nullptr) && n->data <= *min) || (max != nullptr) && n->data >= *max)) {
+    if (((min != nullptr) && n->data <= *min) || ((max != nullptr) && n->data >= *max)) {
         return false;
     }
-    return is_bst(tree, nullptr, nullptr);
+    return is_bst(n->left, min, &n->data) && is_bst(n->right, &n->data, max);
 }
 
 bool is_bst(Node *tree) {
@@ -88,6 +88,16 @@ void delete_bst(Node *n) {
         delete_bst(n->left);
         delete_bst(n->right);
         delete n;
+    }
+}
+
+int height(Node *n) {
+    if (n == nullptr) {
+        return -1;
+    }
+    else
+    {
+        return max(height(n->left), height(n->right)) + 1;
     }
 }
 
@@ -125,11 +135,13 @@ int main(int argc, const char *argv[]) {
         delete nodes[i];
     }
 
-    int data[15] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
-    Node *bst = create_bst(data, 15);
+    int data[5] = {1, 2, 3, 4, 5};
+    Node *bst = create_bst(data, 5);
     display_sideways(bst);
 
     cout << "Is BST? " << (is_bst(bst) ? "yes" : "no") << endl;
+
+    cout << "Height: " << height(bst) << endl;
     delete_bst(bst);
     return 0;
 }
